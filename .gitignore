@@ -1,4 +1,6 @@
 *.o
 *.hi
 *.errors
+*.swp
+history
 xmonad-i386-linux

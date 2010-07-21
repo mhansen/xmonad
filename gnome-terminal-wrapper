@@ -1,0 +1,14 @@
+#!/bin/bash
+
+terminal=${0%-wrapper}
+terminal=${terminal##*/}
+args=()
+while (($#)); do
+	if [ "$1" = "-e" ]; then
+		shift
+		exec $terminal ${args[@]} -e "$*"
+	fi
+	args[${#args[@]}]=$1
+	shift
+done
+exec $terminal ${args[@]}
