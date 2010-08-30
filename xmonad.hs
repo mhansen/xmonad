@@ -39,7 +39,7 @@ main = xmonad $ gnomeConfig
     ]
 
 
-myLayout = tiled ||| Mirror tiled ||| Full ||| simpleTabbed ||| Accordion
+myLayout = tiled ||| Mirror tiled ||| Full ||| simpleTabbed 
   where
     tiled = Tall nmaster delta ratio --partitions the screen into two panes
     nmaster = 1 -- default numer of windows in the master pane
