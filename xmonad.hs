@@ -7,6 +7,7 @@ import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.Accordion
 import XMonad.Layout.Column
 import XMonad.Layout.Tabbed
+import XMonad.Layout.Grid
 import XMonad.Prompt
 import XMonad.Prompt.AppendFile
 import XMonad.Prompt.Man
@@ -33,13 +34,13 @@ main = xmonad $ gnomeConfig
     } 
     `additionalKeysP`
     [ ("M-c", spawn "google-chrome")
-    , ("M-n", appendFilePrompt defaultXPConfig "/home/moon/notes")
+    , ("M-n", appendFilePrompt defaultXPConfig "/home/mark/notes")
     , ("M-m", manPrompt defaultXPConfig)
     , ("M-s", shellPrompt defaultXPConfig)
     ]
 
 
-myLayout = tiled ||| Mirror tiled ||| Full ||| simpleTabbed 
+myLayout = tiled ||| Mirror tiled ||| simpleTabbed ||| Grid
   where
     tiled = Tall nmaster delta ratio --partitions the screen into two panes
     nmaster = 1 -- default numer of windows in the master pane
