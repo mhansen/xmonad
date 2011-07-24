@@ -20,9 +20,6 @@ myManageHook = composeAll (
     , isFullscreen --> doFullFloat  --don't interfere with fullscreen video
     ])
 
-fullscreenVideo :: [ManageHook]
-fullscreenVideo = [ isFullscreen --> (doF W.focusDown <+> doFullFloat) ]
-
 main = xmonad $ gnomeConfig
     { modMask = mod4Mask -- Windows Key
     , borderWidth = 1
