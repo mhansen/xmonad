@@ -1,5 +1,3 @@
-import qualified Data.Map as M
-import qualified XMonad.StackSet as W
 import XMonad
 import XMonad.Config.Desktop
 import XMonad.Config.Gnome
@@ -7,17 +5,20 @@ import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.Accordion
 import XMonad.Layout.Column
 import XMonad.Layout.Tabbed
+import XMonad.Layout.Gaps
 import XMonad.Layout.Grid
+import XMonad.Layout.NoBorders
 import XMonad.Prompt
 import XMonad.Prompt.AppendFile
 import XMonad.Prompt.Man
 import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig
 
-myManageHook :: ManageHook
 myManageHook = composeAll (
-    [ resource =? "Do" --> doFloat  --gnome do
+    [ manageHook gnomeConfig
+    , resource =? "Do" --> doFloat  --gnome do
     , isFullscreen --> doFullFloat  --don't interfere with fullscreen video
+    , className =? "Unity-2d-panel" --> doIgnore
     ])
 
 main = xmonad $ gnomeConfig
@@ -26,18 +27,17 @@ main = xmonad $ gnomeConfig
     , normalBorderColor  = "#dddddd"
     , focusedBorderColor = "#ff0000"
     , layoutHook = desktopLayoutModifiers (myLayout)
-    , manageHook = myManageHook <+> manageHook gnomeConfig
+    , manageHook = myManageHook
     , terminal = "~/.xmonad/gnome-terminal-wrapper"
-    } 
+    }
     `additionalKeysP`
-    [ ("M-c", spawn "google-chrome")
+    [ ("M-c", spawn "chromium-browser")
     , ("M-n", appendFilePrompt defaultXPConfig "/home/mark/notes")
     , ("M-m", manPrompt defaultXPConfig)
     , ("M-s", shellPrompt defaultXPConfig)
     ]
 
-
-myLayout = tiled ||| Mirror tiled ||| simpleTabbed ||| Grid
+myLayout = smartBorders (tiled ||| Mirror tiled ||| simpleTabbed ||| Grid)
   where
     tiled = Tall nmaster delta ratio --partitions the screen into two panes
     nmaster = 1 -- default numer of windows in the master pane
