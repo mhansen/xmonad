@@ -13,12 +13,15 @@ import XMonad.Prompt.AppendFile
 import XMonad.Prompt.Man
 import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig
+import XMonad.Layout.SubLayouts
+import XMonad.Layout.WindowNavigation
 
 myManageHook = composeAll (
     [ manageHook gnomeConfig
     , resource =? "Do" --> doFloat  --gnome do
     , isFullscreen --> doFullFloat  --don't interfere with fullscreen video
     , className =? "Unity-2d-panel" --> doIgnore
+    , className =? "Unity-2d-shell" --> doIgnore
     ])
 
 main = xmonad $ gnomeConfig
@@ -35,9 +38,13 @@ main = xmonad $ gnomeConfig
     , ("M-n", appendFilePrompt defaultXPConfig "/home/mark/notes")
     , ("M-m", manPrompt defaultXPConfig)
     , ("M-s", shellPrompt defaultXPConfig)
+    , ("M-C-h", sendMessage(pullGroup L))
+    , ("M-C-l", sendMessage(pullGroup R))
+    , ("M-C-k", sendMessage(pullGroup U))
+    , ("M-C-j", sendMessage(pullGroup D))
     ]
 
-myLayout = smartBorders (tiled ||| Mirror tiled ||| simpleTabbed ||| Grid)
+myLayout = windowNavigation(subTabbed(smartBorders(tiled ||| simpleTabbed)))
   where
     tiled = Tall nmaster delta ratio --partitions the screen into two panes
     nmaster = 1 -- default numer of windows in the master pane
