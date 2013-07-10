@@ -15,6 +15,7 @@ import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
+import XMonad.Layout.BoringWindows
 
 myManageHook :: ManageHook
 myManageHook = composeAll (
@@ -45,10 +46,12 @@ main = xmonad $ gnomeConfig
     , ("M-C-l", sendMessage(pullGroup R))
     , ("M-C-k", sendMessage(pullGroup U))
     , ("M-C-j", sendMessage(pullGroup D))
+    , ("M-j", focusDown)
+    , ("M-k", focusUp)
     ]
 
 
-myLayout = windowNavigation(subTabbed(tiled ||| simpleTabbed))
+myLayout = windowNavigation(subTabbed(boringWindows(tiled ||| simpleTabbed)))
   where
     tiled = Tall nmaster delta ratio --partitions the screen into two panes
     nmaster = 1 -- default numer of windows in the master pane
