@@ -34,8 +34,6 @@ myLayout = desktopLayoutModifiers $
 main = xmonad $ gnomeConfig
     { modMask = mod4Mask -- Windows Key
     , borderWidth = 1
-    , normalBorderColor  = "#dddddd"
-    , focusedBorderColor = "#ff0000"
     , layoutHook = myLayout
     , manageHook = composeAll $
         [ manageHook gnomeConfig
@@ -47,14 +45,10 @@ main = xmonad $ gnomeConfig
     , terminal = "~/.xmonad/gnome-terminal-wrapper"
     }
     `additionalKeysP`
-    [ ("M-c", spawn "chromium-browser")
-    , ("M-n", appendFilePrompt defaultXPConfig "/home/mark/notes")
-    , ("M-m", manPrompt defaultXPConfig)
-    , ("M-s", shellPrompt defaultXPConfig)
-    , ("M-C-h", sendMessage(pullGroup L))
-    , ("M-C-l", sendMessage(pullGroup R))
-    , ("M-C-k", sendMessage(pullGroup U))
-    , ("M-C-j", sendMessage(pullGroup D))
+    [ ("M-C-h", sendMessage $ pullGroup L)
+    , ("M-C-l", sendMessage $ pullGroup R)
+    , ("M-C-k", sendMessage $ pullGroup U)
+    , ("M-C-j", sendMessage $ pullGroup D)
     , ("M-j", focusDown)
     , ("M-k", focusUp)
     ]
