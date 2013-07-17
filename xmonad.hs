@@ -17,21 +17,33 @@ import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
 import XMonad.Layout.BoringWindows
 
-myManageHook = composeAll (
-    [ manageHook gnomeConfig
-    , resource =? "Do" --> doFloat  --gnome do
-    , isFullscreen --> doFullFloat  --don't interfere with fullscreen video
-    , className =? "Unity-2d-panel" --> doIgnore
-    , className =? "Unity-2d-shell" --> doIgnore
-    ])
+
+myLayout = desktopLayoutModifiers $
+             subTabbed $
+             windowNavigation $
+             smartBorders $
+             boringWindows $
+             tiled
+             ||| simpleTabbed
+  where
+    tiled = Tall nmaster delta ratio --partitions the screen into two panes
+    nmaster = 1 -- default numer of windows in the master pane
+    ratio = 1/2 -- default proportion of screen occupied by master pane
+    delta = 3/100 -- percent of screen to incrememnt by when resizing panes
 
 main = xmonad $ gnomeConfig
     { modMask = mod4Mask -- Windows Key
     , borderWidth = 1
     , normalBorderColor  = "#dddddd"
     , focusedBorderColor = "#ff0000"
-    , layoutHook = desktopLayoutModifiers (myLayout)
-    , manageHook = myManageHook
+    , layoutHook = myLayout
+    , manageHook = composeAll $
+        [ manageHook gnomeConfig
+        , resource =? "Do" --> doFloat  --gnome do
+        , isFullscreen --> doFullFloat  --don't interfere with fullscreen video
+        , className =? "Unity-2d-panel" --> doIgnore
+        , className =? "Unity-2d-shell" --> doIgnore
+        ]
     , terminal = "~/.xmonad/gnome-terminal-wrapper"
     }
     `additionalKeysP`
@@ -46,10 +58,3 @@ main = xmonad $ gnomeConfig
     , ("M-j", focusDown)
     , ("M-k", focusUp)
     ]
-
-myLayout = windowNavigation(subTabbed(boringWindows(smartBorders(tiled ||| simpleTabbed))))
-  where
-    tiled = Tall nmaster delta ratio --partitions the screen into two panes
-    nmaster = 1 -- default numer of windows in the master pane
-    ratio = 1/2 -- default proportion of screen occupied by master pane
-    delta = 3/100 -- percent of screen to incrememnt by when resizing panes
