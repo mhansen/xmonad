@@ -18,23 +18,19 @@ import XMonad.Layout.WindowNavigation
 import XMonad.Layout.BoringWindows
 
 
-myLayout = desktopLayoutModifiers $
-             subTabbed $
-             windowNavigation $
-             smartBorders $
-             boringWindows $
-             tiled
-             ||| simpleTabbed
+myTiled = subTabbed $ windowNavigation $ smartBorders $ boringWindows $ desktopLayoutModifiers $ tiled
   where
     tiled = Tall nmaster delta ratio --partitions the screen into two panes
     nmaster = 1 -- default numer of windows in the master pane
     ratio = 1/2 -- default proportion of screen occupied by master pane
     delta = 3/100 -- percent of screen to incrememnt by when resizing panes
 
+myTabbed = windowNavigation $ smartBorders $ boringWindows $ desktopLayoutModifiers $ simpleTabbed
+
 main = xmonad $ gnomeConfig
     { modMask = mod4Mask -- Windows Key
     , borderWidth = 1
-    , layoutHook = myLayout
+    , layoutHook = myTiled ||| myTabbed
     , manageHook = composeAll $
         [ manageHook gnomeConfig
         , resource =? "Do" --> doFloat  --gnome do
@@ -42,7 +38,7 @@ main = xmonad $ gnomeConfig
         , className =? "Unity-2d-panel" --> doIgnore
         , className =? "Unity-2d-shell" --> doIgnore
         ]
-    , terminal = "~/.xmonad/gnome-terminal-wrapper"
+    , terminal = "~/.xmonad/gnome-terminal-wrapper -e ~/.xmonad/tmux-open"
     }
     `additionalKeysP`
     [ ("M-C-h", sendMessage $ pullGroup L)
