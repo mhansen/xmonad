@@ -7,6 +7,7 @@ import XMonad.Layout.Column
 import XMonad.Layout.Tabbed
 import XMonad.Layout.Gaps
 import XMonad.Layout.Grid
+import XMonad.Layout.IM
 import XMonad.Layout.NoBorders
 import XMonad.Prompt
 import XMonad.Prompt.AppendFile
@@ -16,14 +17,16 @@ import XMonad.Util.EZConfig
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
 import XMonad.Layout.BoringWindows
+import Data.Ratio ((%))
 
-
-myTiled = subTabbed $ windowNavigation $ smartBorders $ boringWindows $ desktopLayoutModifiers $ tiled
+myTiled = subTabbed $ windowNavigation $ smartBorders $ boringWindows $ desktopLayoutModifiers $ withIM taskRatio taskRoster tiled
   where
     tiled = Tall nmaster delta ratio --partitions the screen into two panes
     nmaster = 1 -- default numer of windows in the master pane
     ratio = 1/2 -- default proportion of screen occupied by master pane
     delta = 3/100 -- percent of screen to incrememnt by when resizing panes
+    taskRatio = (1%8)
+    taskRoster = Title "Tasks - markhansen@google.com - Google Chrome"
 
 myTabbed = windowNavigation $ smartBorders $ boringWindows $ desktopLayoutModifiers $ simpleTabbed
 
