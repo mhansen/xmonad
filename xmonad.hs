@@ -26,7 +26,7 @@ myTiled = subTabbed $ windowNavigation $ smartBorders $ boringWindows $ desktopL
     ratio = 1/2 -- default proportion of screen occupied by master pane
     delta = 3/100 -- percent of screen to incrememnt by when resizing panes
     taskRatio = (1%8)
-    taskRoster = Title "Tasks - markhansen@google.com - Google Chrome"
+    taskRoster = Title "Google.com Mail - Tasks - Google Chrome"
 
 myTabbed = windowNavigation $ smartBorders $ boringWindows $ desktopLayoutModifiers $ simpleTabbed
 
