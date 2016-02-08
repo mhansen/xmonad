@@ -21,12 +21,12 @@ import Data.Ratio ((%))
 
 myTiled = subTabbed $ windowNavigation $ smartBorders $ boringWindows $ desktopLayoutModifiers $ withIM taskRatio taskRoster tiled
   where
-    tiled = Tall nmaster delta ratio --partitions the screen into two panes
+    tiled = Tall nmaster delta ratio -- partitions the screen into two panes
     nmaster = 1 -- default numer of windows in the master pane
     ratio = 1/2 -- default proportion of screen occupied by master pane
-    delta = 3/100 -- percent of screen to incrememnt by when resizing panes
-    taskRatio = (1%8)
-    taskRoster = Title "Google.com Mail - Tasks - Google Chrome"
+    delta = 3/100 -- percent of screen to increment by when resizing panes
+    taskRatio = (1%6)
+    taskRoster = Title "Snippets - Google Docs - Google Chrome"
 
 myTabbed = windowNavigation $ smartBorders $ boringWindows $ desktopLayoutModifiers $ simpleTabbed
 
@@ -42,6 +42,9 @@ main = xmonad $ gnomeConfig
         , className =? "Unity-2d-shell" --> doIgnore
         ]
     , terminal = "~/.xmonad/gnome-terminal-wrapper -e ~/.xmonad/tmux-open"
+    , startupHook = do
+        startupHook gnomeConfig
+        spawn "/usr/bin/xcompmgr" -- Nvidia issue: b/12995284
     }
     `additionalKeysP`
     [ ("M-C-h", sendMessage $ pullGroup L)
@@ -51,3 +54,4 @@ main = xmonad $ gnomeConfig
     , ("M-j", focusDown)
     , ("M-k", focusUp)
     ]
+
