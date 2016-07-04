@@ -1,6 +1,7 @@
 import XMonad
 import XMonad.Config.Desktop
 import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.SetWMName
 import XMonad.Layout.Accordion
 import XMonad.Layout.Column
 import XMonad.Layout.Tabbed
@@ -118,6 +119,7 @@ main = xmonad $ gnomeConfig
     , startupHook = do
         startupHook gnomeConfig
         spawn "/usr/bin/xcompmgr" -- Nvidia issue: b/12995284
+        setWMName "LG3D" -- http://thinkingeek.com/2012/01/24/fix-java-gui-applications-xmonad/
     }
     `additionalKeysP`
     [ ("M-C-h", sendMessage $ pullGroup L)
