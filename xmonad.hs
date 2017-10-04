@@ -20,14 +20,16 @@ import XMonad.Layout.BoringWindows
 import Data.Ratio ((%))
 import XMonad.Config.Gnome
 
-myTiled = subTabbed $ windowNavigation $ smartBorders $ boringWindows $ desktopLayoutModifiers $ withIM taskRatio taskRoster tiled
+myTiled = subTabbed $ windowNavigation $ smartBorders $ boringWindows $ desktopLayoutModifiers $ myIM
+
+myIM = withIM taskRatio taskRoster tiled
   where
     tiled = Tall nmaster delta ratio -- partitions the screen into two panes
     nmaster = 1 -- default numer of windows in the master pane
     ratio = 1/2 -- default proportion of screen occupied by master pane
     delta = 3/100 -- percent of screen to increment by when resizing panes
     taskRatio = (1%6)
-    taskRoster = Title "Snippets - Google Docs - Google Chrome"
+    taskRoster = Title "Google.com Mail - Tasks - Google Chrome"
 
 myTabbed = windowNavigation $ smartBorders $ boringWindows $ desktopLayoutModifiers $ simpleTabbed
 
